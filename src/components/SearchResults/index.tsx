@@ -2,14 +2,17 @@ import React from "react";
 
 import { observer } from "mobx-react-lite";
 
-import SunIcon from "@heroicons/react/outline/SunIcon";
+// import SunIcon from "@heroicons/react/outline/SunIcon";
 // import CloudIcon from "@heroicons/react/outline/CloudIcon";
-import LocationMarkerIcon from "@heroicons/react/outline/LocationMarkerIcon";
+// import LocationMarkerIcon from "@heroicons/react/outline/LocationMarkerIcon";
 import HeartIcon from "@heroicons/react/outline/HeartIcon";
+import Weather from "../Weather";
 import {
   useFavouriteStore,
   useWeatherStore,
 } from "../../providers/RootStoreProvider";
+
+import { makePrePadding } from "../../utils";
 
 type Props = {
   listFavourites?: boolean;
@@ -17,7 +20,7 @@ type Props = {
 
 const SearcResults = observer(({ listFavourites }: Props) => {
   const { searchResults: cities } = useWeatherStore();
-  const { toogleFavourite, favourites, conditions } = useFavouriteStore();
+  const { toogleFavourite, favourites } = useFavouriteStore();
 
   const onToggleFavourite = React.useCallback(
     // (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,7 +31,7 @@ const SearcResults = observer(({ listFavourites }: Props) => {
 
       const key = e.target.dataset.key;
       const city = cities?.find((city) => city.Key === key);
-      console.log("city :>> ", city);
+      // console.log("city :>> ", city);
       if (city) {
         toogleFavourite(city);
       }
@@ -47,7 +50,7 @@ const SearcResults = observer(({ listFavourites }: Props) => {
         _cities.map((city) => (
           <div
             key={city.Key}
-            className="flex w-full items-center justify-between max-w-md lg:max-w-lg bg-gray-700 border-4 border-opacity-30 border-gray-600 rounded-2xl overflow-hidden px-3 my-3"
+            className="flex w-full items-center justify-between max-w-md lg:max-w-lg bg-white text-gray-600 border-1 border-black rounded-xl overflow-hidden px-3 my-3"
           >
             {/* <div className="w-1/5 bg-cover bg-landscape flex justify-center">
               <LocationMarkerIcon
@@ -56,7 +59,7 @@ const SearcResults = observer(({ listFavourites }: Props) => {
               />
             </div> */}
             <div className="w-full p-4">
-              <div className="w-2/3 h-1/2 p-1 text-gray-200 font-thin">
+              <div className="w-2/3 h-1/2 p-1 font-thin">
                 <p>{city.LocalizedName}</p>
                 {/* {WEATHER.WeatherIcon === 2 && (
                   <SunIcon
@@ -65,16 +68,18 @@ const SearcResults = observer(({ listFavourites }: Props) => {
                   />
                 )} */}
                 <img
-                  src={`https://developer.accuweather.com/sites/default/files/${String(
-                    WEATHER.WeatherIcon
-                  ).padStart(2, "0")}-s.png`}
+                  className="h-12 w-12 fill-white pointer-events-none"
+                  src={`https://www.accuweather.com/images/weathericons/${makePrePadding(
+                    WEATHER?.WeatherIcon
+                  )}.svg`}
                   alt={WEATHER.WeatherText}
                 />
+
                 {WEATHER.WeatherText}
               </div>
 
               <div className="flex item-center justify-between mt-3">
-                <h1 className="text-gray-300 font-light text-base">
+                <h1 className="font-light text-base">
                   {city.AdministrativeArea.LocalizedName},
                   {city.Country.LocalizedName}
                 </h1>
@@ -93,7 +98,7 @@ const SearcResults = observer(({ listFavourites }: Props) => {
                 </button>
               </div>
 
-              {listFavourites && <div>list condtions</div>}
+              {listFavourites && <Weather city={city} />}
             </div>
           </div>
         ))}
