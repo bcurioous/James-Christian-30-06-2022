@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
-import { City } from "../types";
+import { City, Condition } from "../types";
 import { RootStore } from "./RootStore";
 
 const API_KEY = "J6y2RtBwI2uTEMjFtg7MijnGBvSCzpc6";
@@ -11,32 +11,54 @@ export type FavouriteStoreHydration = {
 export default class FavouriteStore {
   root: RootStore;
   favourites: Map<string, City> = new Map();
+  conditions: Map<string, Condition> = new Map();
 
   constructor(root: RootStore) {
     this.root = root;
     makeAutoObservable(this);
   }
 
+  addWeatherDetailsForLocation = async (city: City) => {
+    const searchParams = new URLSearchParams({
+      apikey: API_KEY,
+    });
+    const response = await fetch(
+      `/api/currentconditions/v1/${city.Key}?${searchParams}`
+    );
+
+    const responseJson = await response.json();
+
+    runInAction(() => {
+      const oldValues = Object.fromEntries(this.conditions.entries());
+
+      this.conditions = new Map(
+        Object.entries({ ...oldValues, [city.Key]: responseJson[0] })
+      );
+    });
+  };
+
   toogleFavourite = (city: City) => {
     runInAction(() => {
-      console.log(" adding this.favourites");
+      console.log("adding this.favourites");
       if (this.favourites.has(city.Key)) {
         this.favourites.delete(city.Key);
         const oldValues = Object.fromEntries(this.favourites.entries());
         this.favourites = new Map(Object.entries(oldValues));
       } else {
         const oldValues = Object.fromEntries(this.favourites.entries());
-
         this.favourites = new Map(
           Object.entries({ ...oldValues, [city.Key]: city })
         );
+        if (!this.conditions.has(city.Key)) {
+          this.addWeatherDetailsForLocation(city);
+        }
       }
     });
   };
 
   hydrate(data?: FavouriteStoreHydration) {
     if (data) {
-      console.log('hydrate favourites', data);
+      console.log("hydrate favourites", data);
       this.favourites = data.favourites;
     }
   }

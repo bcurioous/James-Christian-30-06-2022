@@ -20,23 +20,27 @@ export default class WeatherStore {
   }
 
   onSearchCities = async (term: string) => {
-    console.log("before searchResult ::", this);
-    // const searchParams = new URLSearchParams({
-    //   apikey: API_KEY,
-    //   q: term,
-    // });
-
-    // const response = await fetch(
-    //   "/api/locations/v1/cities/autocomplete?" + searchParams
-    // );
-
-    // const responseJson = await response.json();
-
     runInAction(() => {
-      // this.searchResults = responseJson;
       this.searchResults = results;
     });
   };
+
+  // onSearchCities = async (term: string) => {
+  //   const searchParams = new URLSearchParams({
+  //     apikey: API_KEY,
+  //     q: term,
+  //   });
+
+  //   const response = await fetch(
+  //     "/api/locations/v1/cities/autocomplete?" + searchParams
+  //   );
+
+  //   const responseJson = await response.json();
+
+  //   runInAction(() => {
+  //     this.searchResults = responseJson;
+  //   });
+  // };
 
   hydrate(data?: WeatherStoreHydration) {
     if (data) {

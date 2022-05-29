@@ -31,7 +31,7 @@ const Home: NextPage = observer(() => {
             type="search"
             name="serch"
             placeholder="Search"
-            className="bg-white h-10 px-5 pr-10 w-96 rounded-full text-sm focus:outline-none"
+            className="bg-white h-10 px-5 pr-10 w-96 rounded-full border-2 border-gray-300 shadow-lg shadow-gray-300 font-light  focus:outline-none"
             onChange={onSearchTermChange}
           />
           <button type="submit" className="absolute right-0 top-0 mt-3 mr-4">

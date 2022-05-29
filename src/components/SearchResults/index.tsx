@@ -11,13 +11,13 @@ import {
   useWeatherStore,
 } from "../../providers/RootStoreProvider";
 
-type Props={
+type Props = {
   listFavourites?: boolean;
-}
+};
 
-const SearcResults = observer(({listFavourites}: Props) => {
+const SearcResults = observer(({ listFavourites }: Props) => {
   const { searchResults: cities } = useWeatherStore();
-  const { toogleFavourite, favourites } = useFavouriteStore();
+  const { toogleFavourite, favourites, conditions } = useFavouriteStore();
 
   const onToggleFavourite = React.useCallback(
     // (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,7 +37,7 @@ const SearcResults = observer(({listFavourites}: Props) => {
   );
 
   let _cities = cities;
-  if(listFavourites){
+  if (listFavourites) {
     _cities = Array.from(favourites.values());
   }
 
@@ -47,7 +47,7 @@ const SearcResults = observer(({listFavourites}: Props) => {
         _cities.map((city) => (
           <div
             key={city.Key}
-            className="flex w-full items-center justify-between max-w-md bg-gray-700 border-4 border-opacity-30 border-gray-600 rounded-2xl overflow-hidden px-3 my-3"
+            className="flex w-full items-center justify-between max-w-md lg:max-w-lg bg-gray-700 border-4 border-opacity-30 border-gray-600 rounded-2xl overflow-hidden px-3 my-3"
           >
             {/* <div className="w-1/5 bg-cover bg-landscape flex justify-center">
               <LocationMarkerIcon
@@ -64,7 +64,12 @@ const SearcResults = observer(({listFavourites}: Props) => {
                     aria-hidden="true"
                   />
                 )} */}
-                <img src={`https://developer.accuweather.com/sites/default/files/${String(WEATHER.WeatherIcon).padStart(2, '0')}-s.png`} alt={WEATHER.WeatherText} />
+                <img
+                  src={`https://developer.accuweather.com/sites/default/files/${String(
+                    WEATHER.WeatherIcon
+                  ).padStart(2, "0")}-s.png`}
+                  alt={WEATHER.WeatherText}
+                />
                 {WEATHER.WeatherText}
               </div>
 
@@ -87,6 +92,8 @@ const SearcResults = observer(({listFavourites}: Props) => {
                   />
                 </button>
               </div>
+
+              {listFavourites && <div>list condtions</div>}
             </div>
           </div>
         ))}
@@ -477,3 +484,30 @@ const WEATHER = {
     "http://www.accuweather.com/en/in/ahmedabad/202438/current-weather/202438?lang=en-us",
   Link: "http://www.accuweather.com/en/in/ahmedabad/202438/current-weather/202438?lang=en-us",
 };
+
+const WEATHER_MINI = [
+  {
+    LocalObservationDateTime: "2022-05-29T18:03:00+05:30",
+    EpochTime: 1653827580,
+    WeatherText: "Sunny",
+    WeatherIcon: 1,
+    HasPrecipitation: false,
+    PrecipitationType: null,
+    IsDayTime: true,
+    Temperature: {
+      Metric: {
+        Value: 40.4,
+        Unit: "C",
+        UnitType: 17,
+      },
+      Imperial: {
+        Value: 105,
+        Unit: "F",
+        UnitType: 18,
+      },
+    },
+    MobileLink:
+      "http://www.accuweather.com/en/in/ahmedabad/202438/current-weather/202438?lang=en-us",
+    Link: "http://www.accuweather.com/en/in/ahmedabad/202438/current-weather/202438?lang=en-us",
+  },
+];
