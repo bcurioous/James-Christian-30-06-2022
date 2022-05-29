@@ -2,7 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-gray-100;
+}
 
-body{
-    @apply bg-gray-100;
+.weather-line-item {
+  @apply first:border-t-0;
+  @apply border-t-2;
+  @apply border-gray-200;
+  @apply py-3;
+  @apply flex;
+  @apply items-center;
+  @apply justify-between;
+}
+
+.weather-line-item div:nth-child(1) {
+  @apply text-sm;
+  @apply font-light;
+}
+
+.weather-line-item div:nth-child(2) {
+  @apply text-sm;
+  @apply font-medium;
 }

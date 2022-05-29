@@ -1,1 +1,2 @@
-export const makePrePadding = (val: string | number) => ("" + val).padStart(2, "0");
+export const makePrePadding = (val: string | number | undefined) =>
+  ("" + (val || "")).padStart(2, "0");
