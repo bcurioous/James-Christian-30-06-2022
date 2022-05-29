@@ -21,7 +21,6 @@ const SearcResults = observer(({ listFavourites }: Props) => {
   const { toogleFavourite, favourites } = useFavouriteStore();
 
   const onToggleFavourite = React.useCallback(
-    // (e: React.MouseEvent<HTMLButtonElement>) => {
     (e: React.SyntheticEvent<HTMLButtonElement>) => {
       if (!(e.target instanceof HTMLButtonElement)) {
         return;
@@ -29,7 +28,6 @@ const SearcResults = observer(({ listFavourites }: Props) => {
 
       const key = e.target.dataset.key;
       const city = cities?.find((city) => city.Key === key);
-      // console.log("city :>> ", city);
       if (city) {
         toogleFavourite(city);
       }
@@ -51,7 +49,7 @@ const SearcResults = observer(({ listFavourites }: Props) => {
             className="flex w-full items-center justify-between max-w-md lg:max-w-lg bg-white text-gray-600 border-1 border-black rounded-xl overflow-hidden px-3 my-3"
           >
             <div className="w-full p-4">
-              <div className="w-2/3 h-1/2 p-1 font-thin">
+              <div className="w-2/3 h-1/2 p-1">
                 <p>{city.LocalizedName}</p>
               </div>
 

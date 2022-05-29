@@ -19,31 +19,33 @@ export default class FavouriteStore {
     makeAutoObservable(this);
   }
 
-  addWeatherDetailsForLocation = async (city: City) => {
-    runInAction(() => {
-      this.conditions = new Map(
-        Object.entries({ [city.Key]: responseJson[0] })
-      );
-    });
-  };
   // addWeatherDetailsForLocation = async (city: City) => {
-  //   const searchParams = new URLSearchParams({
-  //     apikey: API_KEY,
-  //   });
-  //   const response = await fetch(
-  //     `/api/currentconditions/v1/${city.Key}?${searchParams}`
-  //   );
-
-  //   const responseJson = await response.json();
-
   //   runInAction(() => {
-  //     const oldValues = Object.fromEntries(this.conditions.entries());
-
   //     this.conditions = new Map(
-  //       Object.entries({ ...oldValues, [city.Key]: responseJson[0] })
+  //       Object.entries({ [city.Key]: responseJson[0] })
   //     );
   //   });
   // };
+
+  addWeatherDetailsForLocation = async (city: City) => {
+    const searchParams = new URLSearchParams({
+      apikey: API_KEY,
+      details: "true",
+    });
+    const response = await fetch(
+      `/api/currentconditions/v1/${city.Key}?${searchParams}`
+    );
+
+    const responseJson = await response.json();
+
+    runInAction(() => {
+      const oldValues = Object.fromEntries(this.conditions.entries());
+
+      this.conditions = new Map(
+        Object.entries({ ...oldValues, [city.Key]: responseJson[0] })
+      );
+    });
+  };
 
   toogleFavourite = (city: City) => {
     runInAction(() => {
