@@ -45,7 +45,7 @@ const SearcResults = observer(({ listFavourites }: Props) => {
       {cities &&
         _cities.map((city) => (
           <div
-            // key={city.Key}
+            key={city.Key}
             className="flex w-full items-center justify-between max-w-md lg:max-w-lg bg-white text-gray-600 border-1 border-black rounded-xl overflow-hidden px-3 my-3"
           >
             <div className="w-full p-4">

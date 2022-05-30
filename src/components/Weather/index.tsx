@@ -45,7 +45,7 @@ const Weather = observer(({ city }: Props) => {
               />
               <div className="text-5xl font-bold tracking-tighter">
                 <div className="display-temp">
-                  {weather?.WeatherIcon}°
+                  {Math.floor(weather?.Temperature.Metric.Value || 0)}°
                   <span className="text-sm text-gray-500 -mx-3">C</span>
                 </div>
               </div>
